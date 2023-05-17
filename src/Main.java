@@ -27,6 +27,8 @@ public class Main {
             System.out.println("1 - Fazer Pedido");
             System.out.println("2 - Sair");
             System.out.println();
+            System.out.println("-------------------------------");
+            System.out.println();
 
             try{
                 System.out.println("Selecione uma Opção:");
@@ -35,34 +37,40 @@ public class Main {
                 //verifica a opção do usuário
                 switch(opcaoSelecionada) {
                     case 1:
+                        System.out.println();
                         //Solicita o nome do cliente
-                        System.out.println("Insira seu nome:");
+                        System.out.println("Insira o nome do cliente:");
                         String nomeCliente = scannerTxt();
-
-                        //imprime os pratos dos cardápios
-                        for (Prato p : cardapio) {
-                            System.out.println();
-                            System.out.println("----- Cardápio -----");
-                            System.out.println("Código: " + p.getCodigo());
-                            System.out.println("Nome: " + p.getNome());
-                            System.out.println("Descrição: " + p.getDescricao());
-                            if (p instanceof Sushi){
-                                System.out.printf("Gramas de Arroz: %.2fg\n", ((Sushi) p).getGramasArroz());
-                                System.out.printf("Gramas de Carne: %.2fg\n", ((Sushi) p).getGramasCarne());
-                            } else if (p instanceof Uramaki) {
-                                System.out.printf("Gramas de Arroz: %.2fg\n", ((Uramaki) p).getGramasArroz());
-                                System.out.printf("Gramas de Carne: %.2fg\n", ((Uramaki) p).getGramasCarne());
-                                System.out.printf("Gramas de Philadelphia: %.2fg", ((Uramaki) p).getGramasPhiladelphia());
-                            }else if (p instanceof Sashimi) {
-                                System.out.printf("Gramas de Carne: %.2fg\n", ((Sashimi) p).getGramasCarne());
-                            }
-                            System.out.printf("Valor: R$%.2f\n", p.getValor());
-
-                            System.out.println();
-                        }
 
                         //Fica lendo os pedidos do usuário
                         while (true){
+
+                            //Imprime o Cardápio
+                            System.out.println();
+                            System.out.println("Cardápio:");
+                            System.out.println();
+
+                            //imprime os pratos do cardápio
+                            for (Prato p : cardapio) {
+                                System.out.println("-----------------------------------------------------------------------------------");
+                                System.out.println("| Prato: " + p.getCodigo() + " - " + p.getNome());
+                                System.out.println("| Descrição: " + p.getDescricao());
+                                System.out.println("| Gramas por prato:");
+                                if (p instanceof Sushi){
+                                    System.out.printf("|   Gramas de Arroz: %.2fg\n", ((Sushi) p).getGramasArroz());
+                                    System.out.printf("|   Gramas de Carne: %.2fg\n", ((Sushi) p).getGramasCarne());
+                                } else if (p instanceof Uramaki) {
+                                    System.out.printf("|   Gramas de Arroz: %.2fg\n", ((Uramaki) p).getGramasArroz());
+                                    System.out.printf("|   Gramas de Carne: %.2fg\n", ((Uramaki) p).getGramasCarne());
+                                    System.out.printf("|   Gramas de Philadelphia: %.2fg\n", ((Uramaki) p).getGramasPhiladelphia());
+                                }else if (p instanceof Sashimi) {
+                                    System.out.printf("|   Gramas de Carne: %.2fg\n", ((Sashimi) p).getGramasCarne());
+                                }
+                                System.out.printf("| Valor: R$%.2f\n", p.getValor());
+                                System.out.println("-----------------------------------------------------------------------------------");
+
+                                System.out.println();
+                            }
 
                             //Variável de Controle
                             boolean pratoAdicionado = false;
@@ -94,41 +102,47 @@ public class Main {
                         //Exibe nota fiscal
                         System.out.println();
                         if (pedido.size() > 0){
+                            System.out.println("-----------------------------------------------------------------------------------");
                             System.out.println("Nota Fiscal(" + nomeCliente +")");
                             float total = 0;
                             while (true){
                                 for (Integer i : pedido) {
                                     for (Prato p3 : cardapio){
                                         if (p3.getCodigo() == i){
-                                            System.out.printf("Prato: " + p3.getCodigo() + " - Nome: " + p3.getNome() + " - Valor: R$%.2f\n", p3.getValor());
+                                            System.out.printf("| Prato: " + p3.getCodigo() + " - Nome: " + p3.getNome() + " - Valor: R$%.2f\n", p3.getValor());
                                             total += p3.getValor();
                                         }
                                     }
 
                                 }
                                 //Imprime valor total sem taxa de serviço
-                                System.out.printf("Valor sem taxa de serviço: R$%.2f", total);
+                                System.out.printf("| Valor sem taxa de serviço: R$%.2f\n", total);
+                                System.out.println("-----------------------------------------------------------------------------------");
                                 float vt = 0;
 
                                 while(true) {
-                                    //Solicita a gorgeta do serviço
                                     System.out.println();
+                                    //Solicita a gorgeta do serviço
                                     System.out.println("Taxa de Serviço:");
                                     System.out.println("1 - 10%");
                                     System.out.println("2 - Valor Personalizado");
-                                    System.out.println();
+
                                     try {
-                                        System.out.println("Selecione um código de gorgeta:");
+                                        System.out.println("Selecione um código de valor de taxa de serviço:");
                                         int codGorgeja = scannerNumber();
 
                                         if(codGorgeja == 2){
                                             try {
-                                                System.out.println("Insira seu valor personalizado:");
+                                                System.out.println("Insira seu valor personalizado sem %, apenas o número:");
                                                 float valorGorgeta = scannerFloat();
                                                 if (valorGorgeta > 10){
                                                     float valorTotal = total + ((total * valorGorgeta)/100);
-                                                    System.out.printf("Valor Taxa: R$%.2f\n", (total * valorGorgeta)/100);
-                                                    System.out.printf("Valor Total: R$%.2f\n", valorTotal);
+                                                    System.out.println();
+                                                    System.out.println("-----------------------------------------------------------------------------------");
+                                                    System.out.printf("| Valor Sem Taxa de Serviço: R$%.2f\n", total);
+                                                    System.out.printf("| Valor Taxa: R$%.2f\n", (total * valorGorgeta)/100);
+                                                    System.out.printf("| Valor Total: R$%.2f\n", valorTotal);
+                                                    System.out.println("-----------------------------------------------------------------------------------");
                                                     vt = valorTotal;
                                                     break;
                                                 }else{
@@ -140,8 +154,12 @@ public class Main {
 
                                         }else{
                                             float valorTotal = total * 1.10f;
-                                            System.out.printf("Valor Taxa: R$%.2f\n", (total * 10)/100);
-                                            System.out.printf("Valor Total: R$%.2f\n", valorTotal);
+                                            System.out.println();
+                                            System.out.println("-----------------------------------------------------------------------------------");
+                                            System.out.printf("| Valor Sem Taxa de Serviço: R$%.2f\n", total);
+                                            System.out.printf("| Valor Taxa: R$%.2f\n", (total * 10)/100);
+                                            System.out.printf("| Valor Total: R$%.2f\n", valorTotal);
+                                            System.out.println("-----------------------------------------------------------------------------------");
                                             vt = valorTotal;
                                             break;
                                         }
@@ -157,12 +175,21 @@ public class Main {
                                         System.out.println("Insira o valor recebido:");
                                         float valorPago = scannerFloat();
                                         if((valorPago - vt) > 0){
-                                            System.out.printf("Troco: R$%.2f\n", (valorPago - vt));
+                                            System.out.println();
+                                            System.out.println("-----------------------------------------------------------------------------------");
+                                            System.out.printf("| Troco: R$%.2f\n", (valorPago - vt));
+                                            System.out.println("-----------------------------------------------------------------------------------");
                                             break;
                                         }else if ((valorPago - vt) < 0){
-                                            System.out.printf("Valor não pago deve ser superior ou igual a R$%.2f", vt);
+                                            System.out.println();
+                                            System.out.println("-----------------------------------------------------------------------------------");
+                                            System.out.printf("| Valor não pago deve ser superior ou igual a R$%.2f\n", vt);
+                                            System.out.println("-----------------------------------------------------------------------------------");
                                         }else{
-                                            System.out.println("Sem troco necessário!");
+                                            System.out.println();
+                                            System.out.println("-----------------------------------------------------------------------------------");
+                                            System.out.println("| Sem troco necessário!\n");
+                                            System.out.println("-----------------------------------------------------------------------------------");
                                             break;
                                         }
                                     }catch (InputMismatchException e){
@@ -176,8 +203,9 @@ public class Main {
                             System.out.println("Sem pedidos realizados!");
                         }
 
-                        System.out.println("Tecle enter para continuar...");
-                        String continuar = scannerNextLine();
+                        System.out.println();
+                        System.out.println("Tecle enter para terminar a operação...");
+                        scannerNextLine();
 
                         menu();
                     case 2:
