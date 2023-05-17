@@ -41,6 +41,8 @@ public class Main {
 
                         //imprime os pratos dos cardápios
                         for (Prato p : cardapio) {
+                            System.out.println();
+                            System.out.println("----- Cardápio -----");
                             System.out.println("Código: " + p.getCodigo());
                             System.out.println("Nome: " + p.getNome());
                             System.out.println("Descrição: " + p.getDescricao());
@@ -92,7 +94,7 @@ public class Main {
                         //Exibe nota fiscal
                         System.out.println();
                         if (pedido.size() > 0){
-                            System.out.println("Nota Fiscal:");
+                            System.out.println("Nota Fiscal(" + nomeCliente +")");
                             float total = 0;
                             while (true){
                                 for (Integer i : pedido) {
@@ -169,13 +171,15 @@ public class Main {
                                 }
                                 break;
                             }
-                            menu();
 
                         }else{
                             System.out.println("Sem pedidos realizados!");
-                            menu();
                         }
 
+                        System.out.println("Tecle enter para continuar...");
+                        String continuar = scannerNextLine();
+
+                        menu();
                     case 2:
                         break;
                 }
@@ -205,4 +209,8 @@ public class Main {
         return resultadoInput;
     }
 
+    public static void scannerNextLine(){
+        Scanner input = new Scanner(System.in);
+        String resultadoInput = input.nextLine();
+    }
 }
